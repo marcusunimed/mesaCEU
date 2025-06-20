@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa de Atendimento CEU - Cards Institucionais</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Cabeçalho Principal */
+        .document-header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .logo-section {
+            margin-bottom: 24px;
+        }
+
+        .unimed-logo {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .title-section h1 {
+            color: #00995D;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .title-section h2 {
+            color: #64748b;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .objective {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .objective h3 {
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .objective h3::before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3Cpath d='M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h9l4 4.5V12z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .objective p {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .institutional-card {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #00995D;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .contacts-container {
+            padding: 24px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .single-contact .contacts-container {
+            justify-content: flex-start;
+        }
+
+        .contact-card {
+            flex: 1;
+            background: #fafbfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .single-contact .contact-card {
+            max-width: 500px;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-card.principal {
+            background: #ffffff;
+            border-left: 4px solid #00995D;
+        }
+
+        .contact-card.apoio {
+            background: #f8fafc;
+            border-left: 4px solid #94a3b8;
+            opacity: 0.9;
+        }
+
+        .contact-card.principal::before {
+            content: "RESPONSÁVEL PRINCIPAL";
+            position: absolute;
+            top: -8px;
+            left: 16px;
+            background: #ED1651;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            cursor: help;
+        }
+
+        .contact-card.principal::before:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        .contact-card.apoio::before {
+            content: "APOIO";
+            position: absolute;
+            top: -8px;
+            left: 16px;
+            background: #94a3b8;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            cursor: help;
+        }
+
+        .contact-card.apoio::before:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        .contact-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            margin-top: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .contact-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .principal .contact-avatar {
+            background: linear-gradient(135deg, #00995D, #007a4a);
+        }
+
+        .apoio .contact-avatar {
+            background: linear-gradient(135deg, #94a3b8, #64748b);
+        }
+
+        .contact-info h3 {
+            color: #1e293b;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .contact-role {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .apoio .contact-role {
+            font-style: italic;
+        }
+
+        .contact-details {
+            margin-bottom: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .info-item:hover {
+            background-color: rgba(0, 153, 93, 0.05);
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            color: #00995D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .apoio .info-icon {
+            color: #64748b;
+        }
+
+        .apoio .info-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .info-text {
+            color: #374151;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .clickable {
+            color: #00995D;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .clickable:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        .apoio .clickable {
+            color: #64748b;
+        }
+
+        .responsibilities {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .responsibilities h4 {
+            color: #1e293b;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .responsibilities-list {
+            list-style: none;
+        }
+
+        .responsibilities-list li {
+            color: #4b5563;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .responsibilities-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #10b981;
+            animation: pulse 2s infinite;
+            position: relative;
+            cursor: help;
+        }
+
+        .status-indicator[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+        }
+
+        .status-indicator[data-tooltip]::before {
+            content: '';
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1e293b;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .status-indicator[data-tooltip]:hover::after,
+        .status-indicator[data-tooltip]:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Apoio múltiplo - Farmácia */
+        .apoio-multiple {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .apoio-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .apoio-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .apoio-card h5 {
+            color: #1e293b;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .apoio-card .role {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .apoio-card .email {
+            font-size: 0.75rem;
+        }
+
+        .apoio-card .email a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        .apoio-card .email a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 10px;
+            }
+
+            .document-header {
+                padding: 24px 16px;
+            }
+
+            .unimed-logo {
+                height: 60px;
+            }
+
+            .title-section h1 {
+                font-size: 2rem;
+            }
+
+            .title-section h2 {
+                font-size: 1.1rem;
+            }
+
+            .objective {
+                padding: 16px;
+            }
+
+            .objective h3 {
+                font-size: 1rem;
+            }
+
+            .objective p {
+                font-size: 0.9rem;
+            }
+
+            .card-header {
+                padding: 16px;
+            }
+
+            .card-header h2 {
+                font-size: 1.1rem;
+            }
+
+            .contacts-container {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+            }
+
+            .contact-card {
+                padding: 16px;
+                max-width: none;
+            }
+
+            .contact-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .contact-info h3 {
+                font-size: 1rem;
+            }
+
+            .info-text {
+                font-size: 0.85rem;
+            }
+
+            .responsibilities-list li {
+                font-size: 0.8rem;
+            }
+
+            .apoio-multiple {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Estados de hover específicos */
+        .contact-card.principal:hover {
+            border-left-color: #007a4a;
+        }
+
+        .contact-card.apoio:hover {
+            opacity: 1;
+            border-left-color: #64748b;
+        }
+
+        .responsibilities {
+            margin-top: 16px;
+        }
+
+        .footer {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .footer p {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .footer a {
+            color: #00995D;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: 115%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1e293b;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tooltip:hover::after,
+        .tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Tooltip específico para status indicator */
+        .status-indicator {
+            position: relative;
+            cursor: help;
+        }
+
+        .status-indicator::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+        }
+
+        .status-indicator::before {
+            content: '';
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1e293b;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .status-indicator:hover::after,
+        .status-indicator:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Seção expansível de manifestações */
+        .manifestation-section {
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f9fafb;
+        }
+
+        .manifestation-header {
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.2s ease;
+            user-select: none;
+        }
+
+        .manifestation-header:hover {
+            background: #e2e8f0;
+        }
+
+        .manifestation-header h5 {
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .expand-arrow {
+            width: 16px;
+            height: 16px;
+            color: #64748b;
+            transition: transform 0.3s ease;
+        }
+
+        .manifestation-header.expanded .expand-arrow {
+            transform: rotate(180deg);
+        }
+
+        .manifestation-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+
+        .manifestation-content.expanded {
+            max-height: 500px;
+        }
+
+        .manifestation-inner {
+            padding: 16px;
+        }
+
+        .manifestation-scope {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 4px;
+        }
+
+        .manifestation-scope h6 {
+            color: #92400e;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .manifestation-scope p {
+            color: #78350f;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .manifestation-teams {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .team-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .team-section h6 {
+            color: #1e293b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .team-members {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .team-members li {
+            color: #4b5563;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .team-members li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00995D;
+            font-weight: bold;
+        }
+
+        .nip-team::before {
+            color: #3b82f6;
+        }
+
+        .ouvidoria-team::before {
+            color: #8b5cf6;
+        }
+
+        @media (max-width: 768px) {
+            .manifestation-teams {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        @media (max-width: 768px) {
+            .tooltip::after,
+            .status-indicator[data-tooltip]::after {
+                font-size: 0.7rem;
+                padding: 6px 8px;
+                bottom: 130%;
+            }
+            
+            .tooltip::before,
+            .status-indicator[data-tooltip]::before {
+                bottom: 120%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Cabeçalho Principal -->
+        <div class="document-header">
+            <div class="logo-section">
+                <img src="https://unimedgoiania.coop.br/wps/wcm/connect/43fc9234-6d8c-4494-adc2-df20f36065cd/logo-unimed-2022-portal.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE-43fc9234-6d8c-4494-adc2-df20f36065cd-oMsH6pa" alt="Unimed Goiânia" class="unimed-logo">
+            </div>
+            <div class="title-section">
+                <h1>Mesa de Atendimento CEU</h1>
+                <h2>Cards Institucionais - Contatos e Responsabilidades</h2>
+                <div class="objective">
+                    <h3>Objetivo do Documento</h3>
+                    <p>Este documento apresenta os contatos institucionais e responsabilidades de cada setor da Mesa de Atendimento do Centro de Especialidades Unimed (CEU), facilitando o direcionamento adequado de manifestações e demandas para os profissionais competentes.</p>
+                </div>
+            </div>
+        </div>
+        <!-- 1. Coordenação Administrativa -->
+        <div class="institutional-card single-contact">
+            <div class="card-header">
+                <i data-lucide="settings"></i>
+                <h2>Coordenação Administrativa</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">AM</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Ana Mundim
+                            </h3>
+                            <div class="contact-role">Coordenadora CEU</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:ana.mundim@unimedgoiania.coop.br" class="clickable tooltip" data-tooltip="Clique para copiar o endereço de e-mail">
+                                    ana.mundim@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=ana.mundim@unimedgoiania.coop.br" class="clickable teams-link tooltip" target="_blank" data-tooltip="Abrir conversa direta no Microsoft Teams">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8682" class="clickable tooltip" data-tooltip="Clique para copiar o ramal">Ramal: 8682</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon tooltip" data-tooltip="Horário de funcionamento"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 18h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon tooltip" data-tooltip="Localização física"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Coordenação CEU</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Supervisão geral de todas as manifestações, coordenação entre departamentos e diretrizes administrativas para resolução de demandas. Responsável pela gestão estratégica e tomada de decisões em casos complexos que envolvem múltiplas áreas.</p>
+                                </div>
+                                <div class="manifestation-teams">
+                                    <div class="team-section">
+                                        <h6>
+                                            <i data-lucide="users" style="width: 12px; height: 12px;"></i>
+                                            Supervisão Geral
+                                        </h6>
+                                        <ul class="team-members nip-team">
+                                            <li>Recepção</li>
+                                            <li>Teleatendimento</li>
+                                            <li>Same (arquivo)</li>
+                                            <li>Telemedicina</li>
+                                            <li>Rouparia</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Diretoria Técnica -->
+        <div class="institutional-card single-contact">
+            <div class="card-header">
+                <i data-lucide="stethoscope"></i>
+                <h2>Diretoria Técnica e Cooperados</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">AC</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Abimael Carvalho
+                            </h3>
+                            <div class="contact-role">Secretário da Diretoria</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:abimael.silva@unimedgoiania.coop.br" class="clickable">
+                                    abimael.silva@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=abimael.silva@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8640" class="clickable">Ramal: 8640</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 18h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text tooltip" data-tooltip="Dr. Madson Montes Bedim - CRM 10512">Diretoria Técnica</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Atuação na gestão de reclamações envolvendo conduta médica, além do tratamento de questões relacionadas ao corpo clínico e à Diretoria Técnica do Centro de Especialidades.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Agendamentos -->
+        <div class="institutional-card">
+            <div class="card-header">
+                <i data-lucide="calendar"></i>
+                <h2>Agendamentos e Consultas Eletivas</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">MS</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Marcus Santos
+                            </h3>
+                            <div class="contact-role">Supervisor Central - CEU</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:marcus.santos@unimedgoiania.coop.br" class="clickable">
+                                    marcus.santos@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=marcus.santos@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8620" class="clickable">Ramal: 8620</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 18h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Central CEU - Supervisão</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Gestão de solicitações relacionadas à marcação de consultas, incluindo atrasos, indisponibilidade de especialidades, atendimento fora do prazo determinado pela ANS e condutas vinculadas a consultas eletivas. Também contempla o agendamento de medicações externas, como antibióticos, Noripurum e Ferrinject.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card apoio">
+                    <div class="contact-header">
+                        <div class="contact-avatar">DL</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Dyane Lima
+                            </h3>
+                            <div class="contact-role">Assistente de Processos</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:dyane.lima@unimedgoiania.coop.br" class="clickable">
+                                    dyane.lima@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=dyane.lima@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8626" class="clickable">Ramal: 8626</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">07h às 17h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Setor de Processos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Atendimento Presencial -->
+        <div class="institutional-card">
+            <div class="card-header">
+                <i data-lucide="users"></i>
+                <h2>Atendimento Presencial</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">PR</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Paula Rodovalho
+                            </h3>
+                            <div class="contact-role">Supervisora de Atendimento</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:paula.rodovalho@unimedgoiania.coop.br" class="clickable">
+                                    paula.rodovalho@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=paula.rodovalho@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8690" class="clickable">Ramal: 8690</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">07:00h às 17h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Recepção CEU</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Responsável pela gestão das solicitações de autorizações de consultas eletivas, incluindo análises de negativas. Atua na coordenação do atendimento presencial aos pacientes, na supervisão do setor de quimioterapia e no acompanhamento do fluxo de materiais e medicamentos (MAT/MED).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card apoio">
+                    <div class="contact-header">
+                        <div class="contact-avatar">JC</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Juliana Cândida
+                            </h3>
+                            <div class="contact-role">Assistente de Processos</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:juliana.candida@unimedgoiania.coop.br" class="clickable">
+                                    juliana.candida@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=juliana.candida@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8646" class="clickable">Ramal: 8646</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">07:30h às 17:30h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Setor de Apoio ao Atendimento</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Enfermagem -->
+        <div class="institutional-card">
+            <div class="card-header">
+                <i data-lucide="heart-pulse"></i>
+                <h2>Enfermagem</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">MG</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Mariana Guimarães
+                            </h3>
+                            <div class="contact-role">Supervisora de Enfermagem</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:mariana.guimaraes@unimedgoiania.coop.br" class="clickable">
+                                    mariana.guimaraes@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=mariana.guimaraes@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8629" class="clickable">Ramal: 8629 ou 8641</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 17h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Enfermaria CEU</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Responsável pela gestão de manifestações relacionadas à assistência de enfermagem, incluindo procedimentos, centro cirúrgico, administração de medicações, cuidados especializados e supervisão da equipe de enfermagem. Também atua no acompanhamento de demandas e processos vinculados ao setor de quimioterapia.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card apoio">
+                    <div class="contact-header">
+                        <div class="contact-avatar">JR</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Joelma Rauber
+                            </h3>
+                            <div class="contact-role">Enfermeira</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:joelma.rauber@unimedgoiania.coop.br" class="clickable">
+                                    joelma.rauber@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=joelma.rauber@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 17h (Segunda à Sexta) | Sábado: 08h às 12h</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Enfermaria CEU</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Farmácia -->
+        <div class="institutional-card">
+            <div class="card-header">
+                <i data-lucide="pill"></i>
+                <h2>Farmácia</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">KG</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Karyne Gonçalves
+                            </h3>
+                            <div class="contact-role">Farmacêutica Responsável</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:karyne.goncalves@unimedgoiania.coop.br" class="clickable">
+                                    karyne.goncalves@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=karyne.goncalves@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8697" class="clickable">Ramal: 8697</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Farmácia CEU</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Gestão de manifestações relacionadas a medicamentos, incluindo atrasos na liberação, não dispensação, negativas ou divergências de fornecimento. Coordenação da dispensação farmacêutica, orientação aos pacientes, controle de estoque interno e farmacovigilância de medicamentos especializados.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card apoio">
+                    <div class="contact-header">
+                        <div class="contact-avatar">EQ</div>
+                        <div class="contact-info">
+                            <h3>Equipe de Farmacêuticas</h3>
+                            <div class="contact-role">Apoios</div>
+                        </div>
+                    </div>
+                    <div class="apoio-multiple">
+                        <div class="apoio-card">
+                            <h5>Lays Queiroz</h5>
+                            <div class="role">Farmacêutica</div>
+                            <div class="email">
+                                <i data-lucide="mail" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="mailto:lays.queiroz@unimedgoiania.coop.br">lays.queiroz@unimedgoiania.coop.br</a>
+                            </div>
+                            <div class="email">
+                                <i data-lucide="message-circle" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=lays.queiroz@unimedgoiania.coop.br" target="_blank">Chat no Teams</a>
+                            </div>
+                        </div>
+                        <div class="apoio-card">
+                            <h5>Glendha Silva</h5>
+                            <div class="role">Farmacêutica</div>
+                            <div class="email">
+                                <i data-lucide="mail" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="mailto:glendha.silva@unimedgoiania.coop.br">glendha.silva@unimedgoiania.coop.br</a>
+                            </div>
+                            <div class="email">
+                                <i data-lucide="message-circle" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=glendha.silva@unimedgoiania.coop.br" target="_blank">Chat no Teams</a>
+                            </div>
+                        </div>
+                        <div class="apoio-card">
+                            <h5>Kamilla Teles</h5>
+                            <div class="role">Farmacêutica</div>
+                            <div class="email">
+                                <i data-lucide="mail" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="mailto:kamilla.teles@unimedgoiania.coop.br">kamilla.teles@unimedgoiania.coop.br</a>
+                            </div>
+                            <div class="email">
+                                <i data-lucide="message-circle" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=kamilla.teles@unimedgoiania.coop.br" target="_blank">Chat no Teams</a>
+                            </div>
+                        </div>
+                        <div class="apoio-card">
+                            <h5>Brenda Rodrigues</h5>
+                            <div class="role">Farmacêutica</div>
+                            <div class="email">
+                                <i data-lucide="mail" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="mailto:brenda.rodrigues@unimedgoiania.coop.br">brenda.rodrigues@unimedgoiania.coop.br</a>
+                            </div>
+                            <div class="email">
+                                <i data-lucide="message-circle" style="width: 12px; height: 12px; display: inline-block; margin-right: 4px;"></i>
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=brenda.rodrigues@unimedgoiania.coop.br" target="_blank">Chat no Teams</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Telemedicina -->
+        <div class="institutional-card single-contact">
+            <div class="card-header">
+                <i data-lucide="monitor"></i>
+                <h2>Telemedicina</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">RS</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Ricardo Santos
+                            </h3>
+                            <div class="contact-role">Auxiliar de Telemedicina</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:ricardo.santos@unimedgoiania.coop.br" class="clickable">
+                                    ricardo.santos@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=ricardo.santos@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="phone"></i></span>
+                            <div class="info-text">
+                                <a href="tel:8656" class="clickable">Ramal: 8656</a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">07h às 17h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Setor de Telemedicina</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Gestão de solicitações relacionadas a teleconsultas, atestados digitais, receitas eletrônicas e suporte. Atua na resolução de questões técnicas da plataforma e orientação aos pacientes sobre o uso dos serviços digitais de saúde.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Ouvidoria -->
+        <div class="institutional-card">
+            <div class="card-header">
+                <i data-lucide="headphones"></i>
+                <h2>Intermediação das Ouvidorias</h2>
+            </div>
+            <div class="contacts-container">
+                <div class="contact-card principal">
+                    <div class="contact-header">
+                        <div class="contact-avatar">MC</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Midiann Chaves
+                            </h3>
+                            <div class="contact-role">Responsável</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:midiann.chaves@unimedgoiania.coop.br" class="clickable">
+                                    midiann.chaves@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=midiann.chaves@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">08h às 14h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Ouvidoria</div>
+                        </div>
+                    </div>
+                    <div class="manifestation-section">
+                        <div class="manifestation-header" onclick="toggleManifestation(this)">
+                            <h5>
+                                <i data-lucide="briefcase"></i>
+                                Escopo de Atuação
+                            </h5>
+                            <i data-lucide="chevron-down" class="expand-arrow"></i>
+                        </div>
+                        <div class="manifestation-content">
+                            <div class="manifestation-inner">
+                                <div class="manifestation-scope">
+                                    <h6>Área de Responsabilidade</h6>
+                                    <p>Gestão geral das manifestações, distribuição para áreas competentes e acompanhamento de protocolos entre NIP, Ouvidoria e manifestações no geral.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card apoio">
+                    <div class="contact-header">
+                        <div class="contact-avatar">BG</div>
+                        <div class="contact-info">
+                            <h3>
+                                <span class="status-indicator"></span>
+                                Beatriz Guimarães
+                            </h3>
+                            <div class="contact-role">Apoio</div>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="mail"></i></span>
+                            <div class="info-text">
+                                <a href="mailto:beatriz.guimaraes@unimedgoiania.coop.br" class="clickable">
+                                    beatriz.guimaraes@unimedgoiania.coop.br
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="message-circle"></i></span>
+                            <div class="info-text">
+                                <a href="https://teams.microsoft.com/l/chat/0/0?users=beatriz.guimaraes@unimedgoiania.coop.br" class="clickable teams-link" target="_blank">
+                                    Chat no Teams
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="clock"></i></span>
+                            <div class="info-text">13h às 19h (Segunda à Sexta)</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i data-lucide="map-pin"></i></span>
+                            <div class="info-text">Ouvidoria</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="footer">
+            <p><strong>Última atualização:</strong> Junho/2025</p>
+            <p><strong>Responsável pela organização estrutura:</strong> 
+                <a href="mailto:marcus.santos@unimedgoiania.coop.br">marcus.santos@unimedgoiania.coop.br</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Função para expandir/colapsar manifestações
+        function toggleManifestation(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.expand-arrow');
+            
+            header.classList.toggle('expanded');
+            content.classList.toggle('expanded');
+            
+            // Reinicializar ícones após mudança de conteúdo
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 300);
+        }
+
+        // Inicializar ícones Lucide
+        lucide.createIcons();
+        
+        // Funcionalidade para links de telefone e email
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Em desktop, copia o número para clipboard
+                if (!navigator.userAgent.match(/Mobile|Android|iPhone/)) {
+                    e.preventDefault();
+                    const number = this.href.replace('tel:', '');
+                    navigator.clipboard.writeText(number).then(() => {
+                        // Feedback visual simples
+                        const originalText = this.textContent;
+                        this.textContent = 'Copiado!';
+                        this.style.color = '#10b981';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.color = '';
+                        }, 1500);
+                    }).catch(() => {
+                        alert(`Número do ramal: ${number}`);
+                    });
+                }
+            });
+        });
+
+        // Funcionalidade para links de email
+        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Em desktop, copia o email para clipboard
+                if (!navigator.userAgent.match(/Mobile|Android|iPhone/)) {
+                    e.preventDefault();
+                    const email = this.href.replace('mailto:', '');
+                    navigator.clipboard.writeText(email).then(() => {
+                        // Feedback visual simples
+                        const originalText = this.textContent;
+                        this.textContent = 'Copiado!';
+                        this.style.color = '#10b981';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.color = '';
+                        }, 1500);
+                    }).catch(() => {
+                        alert(`Email: ${email}`);
+                    });
+                }
+            });
+        });
+
+        // Animação suave nos cards
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+        });
+
+        // Simulação de status online baseado no horário
+        function updateOnlineStatus() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay(); // 0 = domingo
+            
+            // Horários específicos por pessoa
+            const schedules = {
+                'Ana Mundim': { start: 8, end: 18 },
+                'Abimael Carvalho': { start: 8, end: 18 },
+                'Marcus Santos': { start: 8, end: 18 },
+                'Dyane Lima': { start: 7, end: 17 },
+                'Paula Rodovalho': { start: 7, end: 17 },
+                'Juliana Cândida': { start: 7.5, end: 17.5 },
+                'Mariana Guimarães': { start: 8, end: 17 },
+                'Joelma Rauber': { start: 8, end: 17, saturday: { start: 8, end: 12 } },
+                'Karyne Gonçalves': { start: 8, end: 17 },
+                'Ricardo Santos': { start: 7, end: 17 },
+                'Midiann Chaves': { start: 8, end: 14 },
+                'Beatriz Guimarães': { start: 13, end: 19 }
+            };
+            
+            document.querySelectorAll('.contact-info h3').forEach(nameElement => {
+                const nameText = nameElement.textContent.trim();
+                const statusIndicator = nameElement.querySelector('.status-indicator');
+                
+                if (statusIndicator && schedules[nameText]) {
+                    const schedule = schedules[nameText];
+                    let isWorkingDay, isWorkingHour;
+                    
+                    // Verificar se é Joelma e se é sábado
+                    if (nameText === 'Joelma Rauber' && day === 6 && schedule.saturday) {
+                        isWorkingDay = true;
+                        isWorkingHour = hour >= schedule.saturday.start && hour < schedule.saturday.end;
+                    } else {
+                        isWorkingDay = day >= 1 && day <= 5;
+                        isWorkingHour = hour >= schedule.start && hour < schedule.end;
+                    }
+                    
+                    if (isWorkingDay && isWorkingHour) {
+                        statusIndicator.style.backgroundColor = '#10b981';
+                        statusIndicator.style.animation = 'pulse 2s infinite';
+                    } else {
+                        statusIndicator.style.backgroundColor = '#94a3b8';
+                        statusIndicator.style.animation = 'none';
+                    }
+                }
+            });
+        }
+
+        // Aplicar tooltips para todos os links de contato
+        function applyTooltipsToAllContacts() {
+            // Tooltips para emails
+            document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+                if (!link.classList.contains('tooltip')) {
+                    link.classList.add('tooltip');
+                    link.setAttribute('data-tooltip', 'Clique para copiar o endereço de e-mail');
+                }
+            });
+
+            // Tooltips para Teams
+            document.querySelectorAll('a[href*="teams.microsoft.com"]').forEach(link => {
+                if (!link.classList.contains('tooltip')) {
+                    link.classList.add('tooltip');
+                    link.setAttribute('data-tooltip', 'Abrir conversa direta no Microsoft Teams');
+                }
+            });
+
+            // Tooltips para telefones
+            document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+                if (!link.classList.contains('tooltip')) {
+                    link.classList.add('tooltip');
+                    link.setAttribute('data-tooltip', 'Clique para copiar o ramal');
+                }
+            });
+
+            // Tooltips para ícones de horário
+            document.querySelectorAll('i[data-lucide="clock"]').forEach(icon => {
+                const parent = icon.closest('.info-icon');
+                if (parent && !parent.classList.contains('tooltip')) {
+                    parent.classList.add('tooltip');
+                    parent.setAttribute('data-tooltip', 'Horário de funcionamento');
+                }
+            });
+
+            // Tooltips para ícones de localização
+            document.querySelectorAll('i[data-lucide="map-pin"]').forEach(icon => {
+                const parent = icon.closest('.info-icon');
+                if (parent && !parent.classList.contains('tooltip')) {
+                    parent.classList.add('tooltip');
+                    parent.setAttribute('data-tooltip', 'Localização física');
+                }
+            });
+        }
+
+        // Atualizar status inicialmente e a cada minuto
+        updateOnlineStatus();
+        setInterval(() => {
+            updateOnlineStatus();
+        }, 60000);
+
+        // Smooth scroll para âncoras (se houver)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efeito de entrada progressiva nos cards
+        function animateCardsOnLoad() {
+            const cards = document.querySelectorAll('.institutional-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        // Executar quando a página carregar
+        window.addEventListener('load', () => {
+            animateCardsOnLoad();
+            applyTooltipsToAllContacts();
+        });
+    </script>
+</body>
+</html>
